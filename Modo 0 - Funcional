@@ -1,0 +1,107 @@
+//Universidad del Valle de Guatemala
+//Electrónica Digital 1 
+// Proyecto 2
+// ============================================================
+//  Modos 0 y 1 implementados
+// ============================================================
+
+#include <Servo.h> 
+//Importamos la libreria para controlar el Servo
+
+Servo miServo; //Nombre para el Servo (lo detecta)
+
+//============================================================
+// Pines
+//============================================================
+
+
+//Servo
+int servoPin = 7;
+
+//Led RGB
+int R = 2;
+int G = 4;
+int B = 3;
+
+//Otros
+int botonModo = 5;
+int buzzer = 6;
+
+// Segmentos display
+int a = 10;
+int b = 11;
+int c = 12;
+int d = A5;
+int e = 13;
+int f = 8;
+int g = 9;
+
+int modo = 0; //Inicia en reposo (variable)
+
+void setup() { //Ocurre solo una vez -> cuando inicia
+  miServo.attach(servoPin); 
+
+  pinMode(R, OUTPUT); //Configuración led RGB como salida
+  pinMode(G, OUTPUT);
+  pinMode(B, OUTPUT);
+
+  pinMode(botonModo, INPUT);
+  pinMode(buzzer, OUTPUT);
+
+  pinMode(a, OUTPUT); // Configuración Display como salida
+  pinMode(b, OUTPUT);
+  pinMode(c, OUTPUT);
+  pinMode(d, OUTPUT);
+  pinMode(e, OUTPUT);
+  pinMode(f, OUTPUT);
+  pinMode(g, OUTPUT);
+}
+
+void loop() { //Repite infinitamente
+
+  if (digitalRead(botonModo) == HIGH) { //revisa si el botón está presionado
+    modo++; //le suma 1 a la variable (0,1 y 2)
+
+    if (modo > 2) { //evita que pase de 2
+      modo = 0;
+    }
+
+    delay(300);
+  }
+
+  if (modo == 0) { //si esta en modo 0, se activa modo reposo
+    modoReposo();
+  }
+}
+
+// ---------------- FUNCIONES 0 , 1 Y 2 ----------------
+
+
+// MODO 0
+void modoReposo() {
+  // LED RGB apagado
+  digitalWrite(R, LOW);
+  digitalWrite(G, LOW);
+  digitalWrite(B, LOW);
+
+  // Buzzer apagado
+  digitalWrite(buzzer, LOW);
+
+  // Servo en 0 grados
+  miServo.write(0); 
+
+  // Display muestra 0
+  mostrarCero();
+}
+
+void mostrarCero() {
+  digitalWrite(a, HIGH);
+  digitalWrite(b, HIGH);
+  digitalWrite(c, HIGH);
+  digitalWrite(d, HIGH);
+  digitalWrite(e, HIGH);
+  digitalWrite(f, HIGH);
+  digitalWrite(g, LOW);
+}
+
+
