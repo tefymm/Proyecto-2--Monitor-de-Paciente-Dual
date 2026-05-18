@@ -1,0 +1,67 @@
+// MODO 1
+
+void modoFrecuenciaC() { //función modo 1
+
+  int lectura = analogRead(pot); //lee potenciómetro 0 a 1023
+  int lpm = map(lectura, 0, 1023, 0, 200); // 0-0, 512-100, 1023-200 (lpm)
+  int anguloServo = map(lpm, 0, 200, 0, 180);// 0 lpm -0 g, 100-90, 200-180
+
+  miServo.write(anguloServo); //mueve el servo 
+
+  mostrarUno(); //llama a la función para prender 1
+  
+  digitalWrite(buzzer, LOW);// buzzer apagado
+
+  // Taquicardia severa
+  if (lpm > 150) {
+
+    // Rojo parpadeante
+    setRGB(HIGH, LOW, LOW);
+
+    delay(200);
+
+    setRGB(LOW, LOW, LOW);
+
+    delay(200);
+  }
+
+  // Taquicardia
+  else if (lpm > 100) {
+    setRGB(HIGH, LOW, LOW);   // Rojo
+  }
+
+  // Normal
+  else if (lpm >= 60) {
+    setRGB(LOW, HIGH, LOW);   // Verde
+  }
+
+  // Bradicardia
+  else {
+    setRGB(HIGH, HIGH, LOW);  // Amarillo
+  }
+}
+
+//============================================================
+// REUTILIZACIÓN 
+//============================================================
+
+void setRGB(int r, int g_, int b_) { 
+  digitalWrite(R, r);
+  digitalWrite(G, g_);
+  digitalWrite(B, b_);
+}
+
+//============================================================
+// DISPLAY NUMERO 1
+//============================================================
+
+void mostrarUno() {
+  digitalWrite(a, LOW);
+  digitalWrite(b, HIGH);
+  digitalWrite(c, HIGH);
+  digitalWrite(d, LOW);
+  digitalWrite(e, LOW);
+  digitalWrite(f, LOW);
+  digitalWrite(g, LOW);
+}
+  
