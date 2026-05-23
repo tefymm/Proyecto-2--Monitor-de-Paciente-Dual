@@ -1,14 +1,14 @@
 //Universidad del Valle de Guatemala
 //Electrónica Digital 1 
 // Proyecto 2
-// ============================================================
-//  Modos 0 y 1 implementados
+// Stephany Mejía 24037
+//Camila Tello 24404
 // ============================================================
 
 #include <Servo.h> 
 //Importamos la libreria para controlar el Servo
 
-Servo miServo; //Nombre para el Servo (lo detecta)
+Servo miServo; //Nombre para el Servo 
 
 //============================================================
 // Pines
@@ -26,6 +26,8 @@ int B = 3;
 //Otros
 int botonModo = 5;
 int buzzer = 6;
+int pot = A0;
+int botonAlarma = A4;
 
 // Segmentos display
 int a = 10;
@@ -36,16 +38,23 @@ int e = 13;
 int f = 8;
 int g = 9;
 
-int modo = 0; //Inicia en reposo (variable)
+int alarma = 0;
+int modo = 0; //Inicia en reposo (variable modo)
+int estadoSalida = 0; //Variable Antirebote
 
 void setup() { //Ocurre solo una vez -> cuando inicia
+ 
+  Serial.begin(9600);
+
   miServo.attach(servoPin); 
+  
 
   pinMode(R, OUTPUT); //Configuración led RGB como salida
   pinMode(G, OUTPUT);
   pinMode(B, OUTPUT);
 
-  pinMode(botonModo, INPUT);
+  pinMode(botonModo, INPUT);// Botón 1
+  pinMode(botonAlarma, INPUT);//Botón 2
   pinMode(buzzer, OUTPUT);
 
   pinMode(a, OUTPUT); // Configuración Display como salida
@@ -59,19 +68,43 @@ void setup() { //Ocurre solo una vez -> cuando inicia
 
 void loop() { //Repite infinitamente
 
-  if (digitalRead(botonModo) == HIGH) { //revisa si el botón está presionado
-    modo++; //le suma 1 a la variable (0,1 y 2)
+  int estado = digitalRead(botonModo); //Revisa el estado del botón
 
-    if (modo > 2) { //evita que pase de 2
+  delay(15);
+
+  // Detecta cuando se presiona
+  if (estado == HIGH) {
+    estadoSalida = 1;
+  }
+
+  // Cambia modo SOLO cuando se suelta - Antirebote
+  if (estadoSalida == 1 && estado == LOW) {
+
+    modo++;//Le suma al modo
+
+    if (modo > 2) { //No pasa de 2
       modo = 0;
     }
 
-    delay(300);
+    estadoSalida = 0; //Reinicia
   }
 
-  if (modo == 0) { //si esta en modo 0, se activa modo reposo
+  //==========================================================
+  // MODOS
+  //==========================================================
+
+  if (modo == 0) {
     modoReposo();
   }
+  
+  else if (modo == 1) {
+    modoFrecuenciaC();
+  }
+
+  else if (modo == 2) {
+    modoTempC();
+  }
+
 }
 
 // ---------------- FUNCIONES 0 , 1 Y 2 ----------------
@@ -94,8 +127,11 @@ void modoReposo() {
   mostrarCero();
 }
 
+
+// DISPLAY NUMERO 0
+
 void mostrarCero() {
-  digitalWrite(a, HIGH);
+  digitalWrite(a, HIGH); //luces en HIGH para formar el 0
   digitalWrite(b, HIGH);
   digitalWrite(c, HIGH);
   digitalWrite(d, HIGH);
@@ -104,4 +140,5 @@ void mostrarCero() {
   digitalWrite(g, LOW);
 }
 
+//============================================================
 
