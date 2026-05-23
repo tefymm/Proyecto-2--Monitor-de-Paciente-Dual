@@ -1,0 +1,81 @@
+// MODO 2
+
+void modoTempC() { //función modo 2
+  
+  int lectura = analogRead(pot); //lee el potenciómetro
+
+  int temp = map(lectura, 0, 1023, 20, 45);// 0 min, 32 medio y 45 max
+
+  Serial.print("Temperatura: "); //ver el valor en serial monitor
+  Serial.println(temp);
+
+  mostrarDos(); //llama para prender 2
+
+    // Botón 2 silencia la alarma
+  if (digitalRead(botonAlarma) == HIGH) {
+    alarma = 1;
+  }
+
+// HIPOTERMIA
+  if (temp < 35) {
+    setRGB(HIGH, LOW, HIGH);   // Morado
+    miServo.write(0);
+
+    if (alarma == 0) {
+      digitalWrite(buzzer, HIGH);
+    } else {
+      digitalWrite(buzzer, LOW);
+    }
+  }
+
+
+// NORMAL
+  else if (temp >= 35 && temp < 37) {
+    setRGB(LOW, HIGH, HIGH);   // Cyan
+    miServo.write(45);
+    digitalWrite(buzzer, LOW);
+    alarma = 0;
+  }
+
+// FEBRÍCULA
+  else if (temp >= 37 && temp < 38) {
+    setRGB(HIGH, HIGH, LOW);   // Amarillo
+    miServo.write(90);
+    digitalWrite(buzzer, LOW);
+    alarma = 0;
+  }
+
+// FIEBRE
+
+  else if (temp >= 38 && temp <= 39) {
+    setRGB(HIGH, LOW, LOW);    // Naranja aproximado
+    miServo.write(135);
+    digitalWrite(buzzer, LOW);
+    alarma = 0;
+  }
+
+// FIEBRE ALTA
+  else {
+    setRGB(HIGH, HIGH, HIGH);  // Blanco
+    miServo.write(180);
+
+    if (alarma == 0) {
+      digitalWrite(buzzer, HIGH);
+    } else {
+      digitalWrite(buzzer, LOW);
+    }
+  }
+}
+
+// DISPLAY NUMERO 2
+
+void mostrarDos() { //muestra 2
+
+  digitalWrite(a, HIGH);
+  digitalWrite(b, HIGH);
+  digitalWrite(c, LOW);
+  digitalWrite(d, HIGH);
+  digitalWrite(e, HIGH);
+  digitalWrite(f, LOW);
+  digitalWrite(g, HIGH);
+}
