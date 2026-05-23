@@ -10,7 +10,7 @@ El sistema simula un monitor biomédico utilizando un Arduino, un servomotor, un
 ---
 
 # Componentes utilizados
-- Arduino Uno/Nano
+- Arduino Nano
 - Servomotor
 - LED RGB
 - Display de 7 segmentos
