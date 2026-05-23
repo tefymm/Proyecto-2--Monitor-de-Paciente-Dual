@@ -114,7 +114,6 @@ El display muestra el número 2.
 #include <Servo.h>
 
 
-Objetivo del proyecto
 ```
 ---
 # Objetivo del proyecto
