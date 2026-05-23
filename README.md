@@ -116,5 +116,6 @@ El display muestra el número 2.
 
 Objetivo del proyecto
 ```
-#Objetivo del proyecto
+---
+# Objetivo del proyecto
 Desarrollar un sistema biomédico básico capaz de monitorear variables simuladas de frecuencia cardíaca y temperatura corporal utilizando componentes electrónicos y programación en Arduino.
