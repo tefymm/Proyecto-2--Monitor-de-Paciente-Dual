@@ -113,9 +113,9 @@ void loop() { //Repite infinitamente
 // MODO 0
 void modoReposo() {
   // LED RGB apagado
-  digitalWrite(R, LOW);
-  digitalWrite(G, LOW);
-  digitalWrite(B, LOW);
+digitalWrite(R, HIGH);
+digitalWrite(G, HIGH);
+digitalWrite(B, HIGH);
 
   // Buzzer apagado
   digitalWrite(buzzer, LOW);
