@@ -50,9 +50,11 @@ void modoFrecuenciaC() { //función modo 1
 //============================================================
 
 void setRGB(int r, int g_, int b_) { 
-  digitalWrite(R, r);
-  digitalWrite(G, g_);
-  digitalWrite(B, b_);
+
+  // ANODO COMUN
+  digitalWrite(R, !r);
+  digitalWrite(G, !g_);
+  digitalWrite(B, !b_);
 }
 
 // DISPLAY NUMERO 1
